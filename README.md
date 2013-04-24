@@ -28,8 +28,11 @@ require 'path/to/basecamp.php/basecamp.php';
 ?>
 ```
 
+### Limitations
+* Currently supports private apps only.
+* This is quick and dirty and will get you started. It does not do client-side caching, which [you must implement per 37signals](https://github.com/37signals/bcx-api#use-http-caching). Pull requests welcome.
+
 ### Usage
-Currently supports private apps only.
 
 Making API calls:
 
@@ -50,6 +53,10 @@ try {
      * Get a list of all projects:
      */
     $projects = $basecamp('GET', '/projects.json');
+    echo "Current list of projects:\n";
+    foreach ($projects as $project) {
+        echo "\t".$project->name."\n";
+    }
 
     /**
      * Create a new project:
@@ -60,7 +67,7 @@ try {
 
     $newProject = $basecamp('POST', '/projects.json', $project);
     echo "New project ID is {$newProject->id}\n";
-} catch ($e) {
+} catch (Exception $e) {
     die($e->getMessage());
 }
 ?>
